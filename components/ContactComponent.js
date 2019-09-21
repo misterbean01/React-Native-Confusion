@@ -8,20 +8,20 @@ const textStyle = {
 
 const Contact = () => {
     return (
-        <Card
-            featuredTitle="Contact"
-            title="Contact Info"
-            dividerStyle='1'
-        >
-            <ScrollView>
+        <ScrollView>
+            <Card
+                featuredTitle="Contact"
+                title="Contact Info"
+                dividerStyle='1'
+            >
                 <Text style={textStyle}>Clear Water Bay, Kowloon</Text>
                 <Text style={textStyle}>121, Clear Water Bay Road </Text>
                 <Text style={textStyle}>HONG KONG</Text>
                 <Text style={textStyle}>Tel: +852 1234 5678</Text>
                 <Text style={textStyle}>Fax: +852 8765 4321</Text>
                 <Text style={textStyle}>Email:confusion@food.net</Text>
-            </ScrollView>
-        </Card >
+            </Card >
+        </ScrollView>
     );
 };
 
