@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements';
 import { Card } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
 
+
 function History() {
     return (
         <Card
