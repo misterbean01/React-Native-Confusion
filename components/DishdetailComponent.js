@@ -148,30 +148,35 @@ class DishDetail extends Component {
                             onFinishRating={(rating) => this.setState({ rating: rating })}
                         />
 
-                        <Input
-                            placeholder=' Author'
-                            leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                            onChangeText={(author) => this.setState({ author: author })}
-                        />
+                        <View style={{ margin: 10 }}>
+                            <Input
+                                placeholder=' Author'
+                                leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                                onChangeText={(author) => this.setState({ author: author })}
+                            />
 
-                        <Input
-                            placeholder=' Comment'
-                            leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
-                            onChangeText={(comment) => this.setState({ comment: comment })}
-                        />
+                            <Input
+                                placeholder=' Comment'
+                                leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
+                                onChangeText={(comment) => this.setState({ comment: comment })}
+                            />
+                        </View>
+                        <View style={{ margin: 10 }}>
+                            <Button
+                                onPress={() => { this.handleComment(dishId); this.resetForm() }}
+                                color="#512DA8"
+                                title="Submit"
+                                style={styles.button}
+                            />
+                        </View>
+                        <View style={{ margin: 10 }}>
+                            <Button
+                                onPress={() => { this.toggleModal() }}
+                                color="gray"
+                                title="Cancel"
 
-                        <Button
-                            onPress={() => { this.handleComment(dishId); this.resetForm() }}
-                            color="#512DA8"
-                            title="Submit"
-                            style={styles.Button}
-                        />
-                        <Button
-                            onPress={() => { this.toggleModal() }}
-                            color="gray"
-                            title="Cancel"
-                            style={styles.Button}
-                        />
+                            />
+                        </View>
                     </View>
                 </Modal>
 
@@ -197,6 +202,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 20
     },
+    button: {
+        margin: 10
+    }
 });
 
 
