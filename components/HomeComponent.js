@@ -69,7 +69,7 @@ class Home extends Component {
             this.animatedValue,
             {
                 toValue: 8,
-                duration: 30000, /* had to increase my duration because its really low fps on my emulator */
+                duration: 10000, /* had to increase my duration because its really low fps on my emulator */
                 easing: Easing.linear
             }
         ).start(() => this.animate());

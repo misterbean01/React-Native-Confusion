@@ -64,12 +64,19 @@ function RenderDish(props) {
             return false;
     }
 
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        if (dx > 200)
+            return true;
+        else
+            return false;
+    }
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
         },
         onPanResponderGrant: () => {
-            this.view.rubberBand(5000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));
+            this.view.rubberBand(2000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));
         },
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
@@ -83,14 +90,17 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
-
+            else if (recognizeComment(gestureState)) {
+                console.log("left to right");
+                props.onShowModal();
+            }
             return true;
         }
     })
 
     if (dish != null) {
         return (
-            <Animatable.View animation="fadeInDown" duration={5000} delay={1000}
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
                 ref={this.handleViewRef}
                 {...panResponder.panHandlers}>
                 <Card
@@ -192,12 +202,14 @@ class DishDetail extends Component {
                             <Input
                                 placeholder=' Author'
                                 leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                                leftIconContainerStyle={{ marginRight: 10 }}
                                 onChangeText={(author) => this.setState({ author: author })}
                             />
 
                             <Input
                                 placeholder=' Comment'
                                 leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
+                                leftIconContainerStyle={{ marginRight: 10 }}
                                 onChangeText={(comment) => this.setState({ comment: comment })}
                             />
                         </View>
