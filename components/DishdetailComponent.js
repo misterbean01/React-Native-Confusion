@@ -91,7 +91,7 @@ function RenderDish(props) {
                     { cancelable: false }
                 );
             else if (recognizeComment(gestureState)) {
-                console.log("left to right");
+                //console.log("left to right");
                 props.onShowModal();
             }
             return true;
