@@ -4,6 +4,7 @@ import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions'; //import { Permissions, Notifications } from 'expo';
 import { Notifications } from 'expo';
+import * as Print from 'expo-print';
 
 class Reservation extends Component {
 
@@ -58,6 +59,20 @@ class Reservation extends Component {
         });
     }
 
+    async reservationToPDF() {
+
+        await Print.printAsync({
+            html: (
+                '<p>Number of Guest: ' + this.state.guests +
+                '<br />Smoking? ' + this.state.smoking +
+                '<br />Date and Time: ' + this.state.date + '</p>'
+            ),
+            base64: false
+        });
+
+        console.log('print to pdf, success');
+    }
+
     toggleModal() {
         this.setState({ showModal: !this.state.showModal });
     }
@@ -82,7 +97,7 @@ class Reservation extends Component {
                 },
                 {
                     text: 'OK',
-                    onPress: () => { console.log('OK is used'); this.presentLocalNotification(this.state.date); this.resetForm(); },
+                    onPress: () => { console.log('OK is used'); this.presentLocalNotification(this.state.date); this.resetForm(); /*this.reservationToPDF()*/ },
                 }
             ],
             { cancelable: false }
