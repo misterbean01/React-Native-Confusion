@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions'; //import { Permissions, Notifications } from 'expo';
 import { Notifications } from 'expo';
 import * as Print from 'expo-print';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -24,12 +25,14 @@ class Reservation extends Component {
     };
 
     handleReservation() {
-        console.log(JSON.stringify(this.state));
         this.setState({
             guests: 1,
             smoking: false,
             date: ''
         });
+        console.log(JSON.stringify(this.state));
+        this.toggleAlert();
+        this.addReservationToCalendar(this.state.date);
     }
 
     async obtainNotificationPermission() {
@@ -59,8 +62,46 @@ class Reservation extends Component {
         });
     }
 
-    async reservationToPDF() {
+    async obtainCalendarPermission() {
+        console.log("asking calendar permision");
+        let permission = await Permissions.getAsync(Permissions.CALENDAR)
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.CALENDAR);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to use the Calendar Application');
+            }
+        }
+        console.log(permission);
+        return permission;
+    }
 
+    async addReservationToCalendar(date) {
+        await this.obtainCalendarPermission();
+
+        const details = {
+            title: 'Con Fusion Table Reservation',
+            startDate: new Date(Date.parse(date)),
+            endDate: new Date(Date.parse(date) + 7200000),
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        }
+        console.log(details)
+
+        const calendars = await Calendar.getCalendarsAsync();
+        //console.log('calendars');
+        console.log(calendars);
+
+        const eventNew = await Calendar.createEventAsync(null, details)
+            .then((event) => {
+                console.log("success: ", event);
+            }).catch((error) => {
+                console.log("fail: ", error);
+            });
+        console.log(eventNew);
+
+    }
+
+    async reservationToPDF() {
         await Print.printAsync({
             html: (
                 '<p>Number of Guest: ' + this.state.guests +
@@ -75,11 +116,6 @@ class Reservation extends Component {
 
     toggleModal() {
         this.setState({ showModal: !this.state.showModal });
-    }
-
-    handleReservation() {
-        console.log(JSON.stringify(this.state));
-        this.toggleModal();
     }
 
     toggleAlert() {
@@ -171,7 +207,7 @@ class Reservation extends Component {
                     </View>
                     <View style={styles.formRow}>
                         <Button
-                            onPress={() => this.toggleAlert()}
+                            onPress={() => this.handleReservation()}
                             title="Reserve"
                             color="#512DA8"
                             accessibilityLabel="Learn more about this purple button"
